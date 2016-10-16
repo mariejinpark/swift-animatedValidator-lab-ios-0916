@@ -10,6 +10,12 @@ import UIKit
 
 class ValidatorViewController: UIViewController, UITextFieldDelegate {
 
+    var fields:[UITextField]!
+    var counter = 0
+    var redColor = UIColor.red
+    var whiteColor = UIColor.white
+    
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var emailConfirmationTextField: UITextField!
     @IBOutlet weak var phoneTextField: UITextField!
@@ -17,10 +23,12 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var passwordConfirmTextField: UITextField!
 
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     
         // Do any additional setup after loading the view, typically from a nib.
+        self.view.backgroundColor = whiteColor
         self.submitButton.accessibilityLabel = Constants.SUBMITBUTTON
         self.emailTextField.accessibilityLabel = Constants.EMAILTEXTFIELD
         self.emailConfirmationTextField.accessibilityLabel = Constants.EMAILCONFIRMTEXTFIELD
@@ -29,6 +37,120 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
         self.passwordConfirmTextField.accessibilityLabel = Constants.PASSWORDCONFIRMTEXTFIELD
         
         self.submitButton.isEnabled = false
+        
+        fields = [emailTextField, emailConfirmationTextField, phoneTextField, passwordTextField, passwordConfirmTextField]
+        
+        for field in fields {
+            field.backgroundColor = whiteColor
+        }
     }
 
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    
+    @IBAction func submitBtnPressed(_ sender: UIButton) {
+    }
+    
+    
+    @IBAction func emailTapped(_ sender: UITextField) {
+        guard let email = emailTextField.text, email != "" else {
+            print ("not a valid email address")
+            return
+        }
+        
+        if emailTextField.text!.contains("@") {
+            counter += 1
+            emailTextField.backgroundColor = whiteColor
+        } else {
+            emailTextField.backgroundColor = redColor
+        }
+        
+        if counter == 5 {
+            submitButton.isEnabled = true
+        }
+    }
+    
+    @IBAction func emailConfirmTapped(_ sender: UITextField) {
+        guard let emailConfirm = emailConfirmationTextField.text, emailConfirm != "" else {
+            print ("email addresses do not match")
+            return
+        }
+        
+            if emailConfirmationTextField.text == emailTextField.text {
+                counter += 1
+                emailConfirmationTextField.backgroundColor = whiteColor
+            } else {
+                 emailConfirmationTextField.backgroundColor = redColor
+            }
+            
+            if counter == 5 {
+                submitButton.isEnabled = true
+            }
+    }
+
+    @IBAction func phoneTapped(_ sender: UITextField) {
+        guard let phone = phoneTextField.text, phone != "" else {
+            print ("please enter a valid number")
+            return
+        }
+        
+        let phoneCharacters = Array(phoneTextField.text!.characters)
+        let phoneCount = phoneCharacters.count
+        
+        if  phoneCount >= 7 {
+            counter += 1
+            phoneTextField.backgroundColor = whiteColor
+        } else {
+            phoneTextField.backgroundColor = redColor
+        }
+        
+        if counter == 5 {
+            submitButton.isEnabled = true
+        }
+    }
+    
+    @IBAction func passwordTapped(_ sender: UITextField) {
+        
+        let passwordCharacterArray = Array(passwordTextField.text!.characters)
+        let passwordCount = passwordCharacterArray.count
+        
+        guard let password = passwordTextField.text, password != "" else {
+            print("please enter as valid password")
+            return
+        }
+        
+        if passwordCount > 6 {
+            counter += 1
+            passwordTextField.backgroundColor = whiteColor
+        } else {
+            passwordTextField.backgroundColor = redColor
+        }
+        
+        if counter == 5 {
+            submitButton.isEnabled = true
+        }
+    }
+    
+    @IBAction func passwordConfirmTapped(_ sender: UITextField) {
+        
+        guard let passwordConfirm = passwordConfirmTextField.text, passwordConfirm != "" else {
+            print("passwords must match")
+            return
+        }
+        
+        if passwordTextField == passwordConfirmTextField {
+            counter += 1
+            passwordConfirmTextField.backgroundColor = whiteColor
+        } else {
+            passwordConfirmTextField.backgroundColor = redColor
+        }
+        
+        if counter == 5 {
+            submitButton.isEnabled = true
+        }
+    }
+    
+    
 }
