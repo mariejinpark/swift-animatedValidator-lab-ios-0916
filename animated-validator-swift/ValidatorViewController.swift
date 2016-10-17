@@ -49,6 +49,13 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
         self.view.endEditing(true)
     }
     
+    func animate(textfield: UITextField){
+      UIView.animateKeyframes(withDuration: 0.8, delay: 0.0, options: [.autoreverse], animations: {
+        textfield.backgroundColor = UIColor.red
+        textfield.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
+        }, completion: nil)
+    }
+    
     
     @IBAction func submitBtnPressed(_ sender: UIButton) {
     }
@@ -63,8 +70,9 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
         if emailTextField.text!.contains("@") {
             counter += 1
             emailTextField.backgroundColor = whiteColor
+            self.emailTextField.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         } else {
-            emailTextField.backgroundColor = redColor
+            animate(textfield: emailTextField)
         }
         
         if counter == 5 {
@@ -81,8 +89,9 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
             if emailConfirmationTextField.text == emailTextField.text {
                 counter += 1
                 emailConfirmationTextField.backgroundColor = whiteColor
+                self.emailConfirmationTextField.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
             } else {
-                 emailConfirmationTextField.backgroundColor = redColor
+                animate(textfield: emailConfirmationTextField)
             }
             
             if counter == 5 {
@@ -102,8 +111,10 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
         if  phoneCount >= 7 {
             counter += 1
             phoneTextField.backgroundColor = whiteColor
+            phoneTextField.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
+
         } else {
-            phoneTextField.backgroundColor = redColor
+            animate(textfield: phoneTextField)
         }
         
         if counter == 5 {
@@ -124,8 +135,9 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
         if passwordCount > 6 {
             counter += 1
             passwordTextField.backgroundColor = whiteColor
+            passwordTextField.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         } else {
-            passwordTextField.backgroundColor = redColor
+             animate(textfield: passwordTextField)
         }
         
         if counter == 5 {
@@ -143,8 +155,9 @@ class ValidatorViewController: UIViewController, UITextFieldDelegate {
         if passwordTextField == passwordConfirmTextField {
             counter += 1
             passwordConfirmTextField.backgroundColor = whiteColor
+             passwordConfirmTextField.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
         } else {
-            passwordConfirmTextField.backgroundColor = redColor
+             animate(textfield: passwordConfirmTextField)
         }
         
         if counter == 5 {
